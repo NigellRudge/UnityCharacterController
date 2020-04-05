@@ -7,7 +7,8 @@ public class Controller2D : MonoBehaviour
 {
     // This value is to of set the position of the raycast of the objects they are fired from
     const float skinWidth = 0.015f;
-    
+
+    public bool doubleJump = true;
     //The amount of rays that are fired from both horizontal and vertical positions
     public int horizonralRayCount = 4;
     public int verticallRayCount = 4;
@@ -21,6 +22,8 @@ public class Controller2D : MonoBehaviour
     // Reference to the collider 
     BoxCollider2D collider;
     RaycastOrigins raycastOrigins;
+
+    public CollisionInfo collisions;
     void Start()
     {
         collider = GetComponent<BoxCollider2D>();
@@ -58,6 +61,7 @@ public class Controller2D : MonoBehaviour
     public void Move(Vector3 velocity)
     {
         UpdateRaycastOrigins();
+        collisions.Reset();
 
         if(velocity.x != 0) { 
             HorizontalCollisions(ref velocity);
@@ -88,6 +92,15 @@ public class Controller2D : MonoBehaviour
             {
                 velocity.y = (hit.distance - skinWidth) * directionY;
                 rayLength = hit.distance;
+
+                collisions.below = directionY == -1;
+                collisions.above = directionY == 1;
+                
+                
+                if (collisions.below)
+                {
+                    doubleJump = true;
+                }
             }
         }
     }
@@ -110,6 +123,9 @@ public class Controller2D : MonoBehaviour
             {
                 velocity.x = (hit.distance - skinWidth) * directionX;
                 rayLength = hit.distance;
+
+                collisions.left = directionX == -1;
+                collisions.right = directionX == 1;
             }
         }
     }
@@ -131,6 +147,16 @@ public class Controller2D : MonoBehaviour
     // about the colissions
     public struct CollisionInfo
     {
+        public bool above;
+        public bool below;
+        public bool left;
+        public bool right;
+
+        public void Reset()
+        {
+            above = below = false;
+            left = right = false;
+        }
 
     }
 }
