@@ -14,9 +14,11 @@ public class Controller2D : MonoBehaviour
 
     public LayerMask collisionMask;
 
-    //T
+    //The Horizontal and vertical spacing for the Rays that will be used during detection
     float horizontalRaySpacing;
     float verticalRaySpacing;
+   
+    // Reference to the collider 
     BoxCollider2D collider;
     RaycastOrigins raycastOrigins;
     void Start()
@@ -25,6 +27,7 @@ public class Controller2D : MonoBehaviour
         CalculateRaySpacing();
     }
 
+    // This method updates the raycast origin for our player. It is called each frame
     void UpdateRaycastOrigins()
     {
         Bounds bounds = collider.bounds;
@@ -37,6 +40,7 @@ public class Controller2D : MonoBehaviour
 
     }
 
+    //This method is used to calculate the spacing of the rays we wil use for collision detection
     void CalculateRaySpacing()
     {
         Bounds bounds = collider.bounds;
@@ -49,6 +53,8 @@ public class Controller2D : MonoBehaviour
         verticalRaySpacing = bounds.size.x / (verticallRayCount - 1);
     }
 
+    // This method is used to move the player object
+    // It takes a Vector 3 variable and then  calls the methods that handle te collisions
     public void Move(Vector3 velocity)
     {
         UpdateRaycastOrigins();
@@ -64,6 +70,8 @@ public class Controller2D : MonoBehaviour
         transform.Translate(velocity);
     }
 
+    // This method handles the Vertical collisions.
+    // It takes a reference to the Vector3 velocity vector passed the move method
     void VerticalCollisions(ref Vector3 velocity)
     {
         float directionY = Mathf.Sign(velocity.y);
@@ -84,6 +92,8 @@ public class Controller2D : MonoBehaviour
         }
     }
 
+    // This method handles the Horizontal collisions.
+    // It takes a reference to the Vector3 velocity vector passed the move method
     void HorizontalCollisions(ref Vector3 velocity)
     {
         float directionX = Mathf.Sign(velocity.x);
@@ -104,7 +114,8 @@ public class Controller2D : MonoBehaviour
         }
     }
 
-
+    // This is a data structure to group the point
+    // where the raycast that will be fired will originate from
     struct RaycastOrigins
     {
         public Vector2 topLeft;
@@ -113,6 +124,13 @@ public class Controller2D : MonoBehaviour
         public Vector2 bottomRight;
 
 
+
+    }
+
+    // This is a datastructure that will hold the information
+    // about the colissions
+    public struct CollisionInfo
+    {
 
     }
 }
