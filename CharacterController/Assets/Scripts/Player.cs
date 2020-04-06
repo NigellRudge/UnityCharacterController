@@ -46,13 +46,9 @@ public class Player : MonoBehaviour
         
         //Calculate gravities for player
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex,2);
-        doubleJumpGravity = -(2 * doubleJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
-
         //calculate jump velocities for player
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
-        doubleJumpVelocity = Mathf.Abs(doubleJumpGravity) * timeToJumpApex;
-
-
+   
         print($"gravity: {gravity}, jumpvelocity: {jumpVelocity}");
     }
 
@@ -69,21 +65,9 @@ public class Player : MonoBehaviour
 
         // Jumping algorithm
         // Check if user preses jump button
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.below)
         {
-            //First checl is user in on the ground
-            if (controller.collisions.below)
-            {
                 velocity.y = jumpVelocity;
-            }
-
-            // Then check to see of user in in the air and
-            // the double jump function is available
-            if ( !(controller.collisions.below) && controller.doubleJump)
-            {
-                velocity.y = doubleJumpVelocity;
-                controller.doubleJump = false;
-            }
         }
 
        
