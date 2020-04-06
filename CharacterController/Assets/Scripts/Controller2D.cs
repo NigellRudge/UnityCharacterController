@@ -2,43 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D))]
-public class Controller2D : MonoBehaviour
+
+public class Controller2D : RaycastController
 {
-    // This value is to of set the position of the raycast of the objects they are fired from
-    const float skinWidth = 0.015f;
-
-    //The amount of rays that are fired from both horizontal and vertical positions
-    public int horizonralRayCount = 4;
-    public int verticallRayCount = 4;
-
-
     //the maximun angle that a player should be able to climb/walk on
     float maxClimbAngle = 75;
-
     //The maximun angle that the player can descend from before he falls
     float maxDescendAngle = 70;
-
-
-    // A reference to the collisionMask used for the obstacles
-    public LayerMask collisionMask;
-
-    //The Horizontal and vertical spacing for the Rays that will be used during detection
-    float horizontalRaySpacing;
-    float verticalRaySpacing;
-   
-    // Reference to the collider 
-    BoxCollider2D collider;
-
-    // A Reference the struct that will hold position info of the Raycasts
-    RaycastOrigins raycastOrigins;
-
     // A Reference the struct that will hold all of the collision information for our player
     public CollisionInfo collisions;
-    void Start()
+
+
+    public override void Start()
     {
-        collider = GetComponent<BoxCollider2D>();
-        CalculateRaySpacing();
+        base.Start();
     }
 
     // This method is used to move the player object
@@ -83,7 +60,7 @@ public class Controller2D : MonoBehaviour
         float rayLength = Mathf.Abs(velocity.x) + skinWidth;
 
         // In this loop we draw the rays from a starting point
-        for (int i = 0; i < horizonralRayCount; i++)
+        for (int i = 0; i < horizontalRayCount; i++)
         {
             //based on the direction we are moving (left = -1, right = 1) we are setting the point where we will start
             //drawing the rays from
@@ -169,7 +146,7 @@ public class Controller2D : MonoBehaviour
     {
         float directionY = Mathf.Sign(velocity.y);
         float rayLength = Mathf.Abs(velocity.y) + skinWidth;
-        for (int i = 0; i < verticallRayCount; i++)
+        for (int i = 0; i < verticalRayCount; i++)
         {
             Vector2 rayOrigin = (directionY == -1) ? raycastOrigins.bottomLeft : raycastOrigins.topLeft;
             rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
@@ -266,43 +243,7 @@ public class Controller2D : MonoBehaviour
     }
 
     // This method updates the raycast origin for our player. It is called each frame
-    void UpdateRaycastOrigins()
-    {
-        Bounds bounds = collider.bounds;
-        bounds.Expand(skinWidth * -2);
 
-        raycastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
-        raycastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
-        raycastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
-        raycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
-
-    }
-
-    //This method is used to calculate the spacing of the rays we wil use for collision detection
-    void CalculateRaySpacing()
-    {
-        Bounds bounds = collider.bounds;
-        bounds.Expand(skinWidth * -2);
-
-        horizonralRayCount = Mathf.Clamp(horizonralRayCount, 2, int.MaxValue);
-        verticallRayCount = Mathf.Clamp(verticallRayCount, 2, int.MaxValue);
-
-        horizontalRaySpacing = bounds.size.y / (horizonralRayCount - 1);
-        verticalRaySpacing = bounds.size.x / (verticallRayCount - 1);
-    }
-
-    
-
-    // This is a data structure to group the point
-    // where the raycast that will be fired will originate from
-    struct RaycastOrigins
-    {
-        public Vector2 topLeft;
-        public Vector2 topRight;
-        public Vector2 bottomLeft;
-        public Vector2 bottomRight;
-
-    }
 
     // This is a datastructure that will hold the information
     // about the colissions
