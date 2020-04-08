@@ -20,7 +20,7 @@ public class Controller2D : RaycastController
 
     // This method is used to move the player object
     // It takes a Vector 3 variable and then  calls the methods that handle te collisions
-    public void Move(Vector3 velocity)
+    public void Move(Vector3 velocity, bool standingOnPlatform = false)
     {
         //We first upate the origins/points where our rays will be cast from
         UpdateRaycastOrigins();
@@ -47,6 +47,10 @@ public class Controller2D : RaycastController
         }
 
         transform.Translate(velocity);
+        if (standingOnPlatform)
+        {
+            collisions.below = true;
+        }
     }
 
     // This method handles the Horizontal collisions.
@@ -80,6 +84,10 @@ public class Controller2D : RaycastController
             // we act only is the rays actually hit something
             if (hit)
             {   
+                if(hit.distance == 0)
+                {
+                    continue;
+                }
                 // we store the angle  if the oject we hit
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 

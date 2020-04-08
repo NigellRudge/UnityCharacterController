@@ -305,7 +305,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694988036}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.49, y: 3.52, z: 0}
+  m_LocalPosition: {x: 21.76, y: 0.56, z: 0}
   m_LocalScale: {x: 6.3112497, y: 1.1423417, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -323,15 +323,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ef677bb9601b1246a4fd080a79cc2d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizonralRayCount: 4
-  verticallRayCount: 4
+  horizontalRayCount: 4
+  verticalRayCount: 4
   collisionMask:
     serializedVersion: 2
     m_Bits: 0
   horizontalRaySpacing: 0
   verticalRaySpacing: 0
   collider: {fileID: 0}
-  move: {x: 0, y: 0, z: 0}
+  passengerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  move: {x: -1, y: 0, z: 0}
 --- !u!1 &1544788613
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,8 +688,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7efb8622d6f345646a3d46cafa9e45f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizonralRayCount: 4
-  verticallRayCount: 4
+  horizontalRayCount: 4
+  verticalRayCount: 4
   collisionMask:
     serializedVersion: 2
     m_Bits: 512
@@ -774,7 +777,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2087624132}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.32, y: 11.37, z: 0}
+  m_LocalPosition: {x: 22.42, y: 2.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
